@@ -7,9 +7,11 @@ using Microsoft.SemanticKernel.AI.Embeddings;
 
 namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
 
+#pragma warning disable SKEXP0011
 public class OllamaTextEmbeddingGeneration(string modelId, string baseUrl, HttpClient http, ILoggerFactory? loggerFactory)
     : OllamaBase<OllamaTextEmbeddingGeneration>(modelId, baseUrl, http, loggerFactory),
         ITextEmbeddingGeneration
+#pragma warning restore SKEXP0011
 {
     public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, Kernel? kernel = null,
         CancellationToken cancellationToken = new())
