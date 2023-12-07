@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Connectors.AI.Ollama", "Codeblaze.SemanticKernel.Connectors.AI.Ollama\Codeblaze.SemanticKernel.Connectors.AI.Ollama.csproj", "{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Api", "Codeblaze.SemanticKernel.Api\Codeblaze.SemanticKernel.Api.csproj", "{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
