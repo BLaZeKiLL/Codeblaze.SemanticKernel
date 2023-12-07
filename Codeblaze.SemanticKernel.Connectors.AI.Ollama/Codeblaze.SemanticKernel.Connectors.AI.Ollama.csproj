@@ -4,15 +4,44 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
+    <!-- Versioning -->
     <ItemGroup>
       <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-rc3" />
       <PackageReference Include="MinVer" Version="4.3.0">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <!-- Nuget Stuff -->
+    <PropertyGroup>
+      <PackageId>Codeblaze.SemanticKernel.Connectors.AI.Ollama</PackageId>
+      <Authors>Codeblaze (Devashish Lal)</Authors>
+        <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
+        <Description>
+          This package provides a Ollama AI connector for semantic kernel capable to text generation, chat completion and embedding generation with streaming support
+        </Description>
+        <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl> 
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <IsPackable>true</IsPackable>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <NoWarn>$(NoWarn);1591</NoWarn>
+      <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="../README.md" Pack="true" PackagePath="/"/>
+      <None Include="../LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)"/>
     </ItemGroup>
 
 </Project>
