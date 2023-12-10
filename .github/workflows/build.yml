@@ -1,11 +1,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: publish
+name: build
 
 on:
+  workflow_dispatch: # Allow running the workflow manually from the GitHub UI
   push:
-    tags:
-      - "v*"
+    branches:
+      - 'main'       # Run the workflow when pushing to the main branch
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -71,29 +72,3 @@ jobs:
   #     uses: actions/setup-dotnet@v3
   #   - name: Run tests
   #     run: dotnet test --configuration Release
-
-  deploy:
-    # Publish only when a tag is pushed
-    # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
-    # You can update this logic if you want to manage releases differently
-    runs-on: ubuntu-latest
-    needs: [ validate_nuget ] #run_test
-    steps:
-      # Download the NuGet package created in the previous job
-      - uses: actions/download-artifact@v3
-        with:
-          name: nuget
-          path: ${{ env.NuGetDirectory }}
-
-      # Install the .NET SDK indicated in the global.json file
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-
-      # Publish all NuGet packages to NuGet.org
-      # Use --skip-duplicate to prevent errors if a package with the same version already exists.
-      # If you retry a failed workflow, already published packages will be skipped without error.
-      - name: Publish NuGet package
-        run: |
-          foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }
