@@ -22,6 +22,10 @@ Supports
 > :warning: **Embedding generation**: Is experimental in the semantic kernel.
 
 ### Quick Start
+- Install from [nuget](https://www.nuget.org/packages/Codeblaze.SemanticKernel.Connectors.AI.Ollama)
+    ```
+    dotnet add package Codeblaze.SemanticKernel.Connectors.AI.Ollama
+    ```
 - Text Generation
 
     Configure the kernel
