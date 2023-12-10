@@ -18,7 +18,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaTextGenerationService(
+    public static IKernelBuilder AddOllamaTextGeneration(
         this IKernelBuilder builder,
         string modelId,
         string baseUrl,
@@ -45,7 +45,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaTextGenerationService(
+    public static IKernelBuilder AddOllamaTextGeneration(
         this IKernelBuilder builder, 
         string modelId, 
         Uri baseUrl, 
@@ -72,7 +72,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaChatCompletionService(
+    public static IKernelBuilder AddOllamaChatCompletion(
         this IKernelBuilder builder,
         string modelId,
         string baseUrl,
@@ -99,7 +99,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaChatCompletionService(
+    public static IKernelBuilder AddOllamaChatCompletion(
         this IKernelBuilder builder,
         string modelId,
         Uri baseUrl,
@@ -126,7 +126,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaTextEmbeddingGeneration(
+    public static IKernelBuilder AddOllamaTextEmbeddingGeneration(
         this IKernelBuilder builder,
         string modelId,
         string baseUrl,
@@ -154,7 +154,7 @@ public static class OllamaKernelBuilderExtensions
     /// <param name="baseUrl">Ollama base url</param>
     /// <param name="serviceId"></param>
     /// <returns></returns>
-    public static IKernelBuilder WithOllamaTextEmbeddingGeneration(
+    public static IKernelBuilder AddOllamaTextEmbeddingGeneration(
         this IKernelBuilder builder,
         string modelId,
         Uri baseUrl,
