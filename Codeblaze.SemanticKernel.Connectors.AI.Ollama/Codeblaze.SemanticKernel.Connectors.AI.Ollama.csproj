@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -19,14 +18,15 @@
     <PropertyGroup>
       <PackageId>Codeblaze.SemanticKernel.Connectors.AI.Ollama</PackageId>
       <Authors>Codeblaze (Devashish Lal)</Authors>
-        <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
-        <Description>
-          This package provides a Ollama AI connector for semantic kernel capable to text generation, chat completion and embedding generation with streaming support
-        </Description>
-        <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl> 
-        <RepositoryType>git</RepositoryType>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+      <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
+      <Description>
+        This package provides a Ollama AI connector for semantic kernel capable to text generation, chat completion and embedding generation with streaming support
+      </Description>
+      <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl> 
+      <RepositoryType>git</RepositoryType>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+      <MinVerTagPrefix>v</MinVerTagPrefix>
     </PropertyGroup>
 
     <PropertyGroup>
