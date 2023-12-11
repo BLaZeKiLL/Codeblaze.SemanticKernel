@@ -1,6 +1,9 @@
-﻿using Codeblaze.SemanticKernel.Console.Services;
+﻿using System.Text.Json;
+using Codeblaze.SemanticKernel.Console.Services;
+using Codeblaze.SemanticKernel.Plugins.Neo4j;
 using Microsoft.Extensions.Configuration;
 using Spectre.Console;
+using Spectre.Console.Json;
 
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -9,14 +12,14 @@ var config = new ConfigurationBuilder()
 AnsiConsole.Write(new FigletText($"{config["Name"]!}").Color(Color.Green));
 AnsiConsole.WriteLine("");
 
-KernelService kernel = null;
+NeoKernelService kernel = null;
 
 AnsiConsole.Status().Start("Initializing...", ctx =>
 {
     ctx.Spinner(Spinner.Known.Star);
     ctx.SpinnerStyle(Style.Parse("green"));
 
-    kernel = new KernelService(config);
+    kernel = new NeoKernelService(config);
 
     ctx.Status("Initialized");
 });
@@ -55,20 +58,37 @@ async Task Prompt()
 {
     var prompt = AnsiConsole.Prompt(new TextPrompt<string>("What are you looking to do today ?").PromptStyle("teal"));
 
-    var result = string.Empty;
+    NeoResult result = null;
     
     await AnsiConsole.Status().StartAsync("Processing...", async ctx =>
     {
         ctx.Spinner(Spinner.Known.Star);
         ctx.SpinnerStyle(Style.Parse("green"));
 
-        ctx.Status($"Processing input to generate Chat Response");
-        result = await kernel.BasicPrompt(prompt);
+        ctx.Status($"Processing input to generate cypher");
+        result = await kernel.Run(prompt);
     });
+
+    if (result.Success)
+    {
+        AnsiConsole.WriteLine("");
+        AnsiConsole.Write(new Rule("[cyan]Cypher[/]") { Justification = Justify.Center });
+        AnsiConsole.WriteLine(result.Cypher);
+        AnsiConsole.Write(new Panel(new JsonText(JsonSerializer.Serialize(result.Result)))
+            .Header("Cypher Result")
+            .Expand()
+            .RoundedBorder()
+            .BorderColor(Color.Green));
+        AnsiConsole.WriteLine("");
+    }
+    else
+    {
+        AnsiConsole.WriteLine("");
+        AnsiConsole.Write(new Rule("[red]Cypher[/]") { Justification = Justify.Center });
+        AnsiConsole.WriteLine(result.Cypher);
+        AnsiConsole.Write(new Rule("[red]Cypher Execution Error[/]") { Justification = Justify.Center });
+        AnsiConsole.WriteLine("");
+    }
     
-    AnsiConsole.WriteLine("");
-    AnsiConsole.Write(new Rule($"[silver]AI Assistant Response[/]") { Justification = Justify.Center });
-    AnsiConsole.WriteLine(result);
-    AnsiConsole.Write(new Rule($"[yellow]****[/]") { Justification = Justify.Center });
-    AnsiConsole.WriteLine("");
+
 }
