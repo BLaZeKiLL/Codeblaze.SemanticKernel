@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Neo4j.Driver;
 
 namespace Codeblaze.SemanticKernel.Plugins.Neo4j;
