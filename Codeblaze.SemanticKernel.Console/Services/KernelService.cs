@@ -2,8 +2,7 @@ using Codeblaze.SemanticKernel.Connectors.AI.Ollama;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.Memory;
+using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Codeblaze.SemanticKernel.Console.Services;
 
@@ -13,7 +12,7 @@ public class KernelService
 
     public KernelService(IConfiguration config)
     {
-        var builder = new KernelBuilder();
+        var builder = Kernel.CreateBuilder();
 
         builder.Services.AddTransient<HttpClient>();
 

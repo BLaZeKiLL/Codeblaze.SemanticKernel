@@ -1,8 +1,5 @@
-using Azure.AI.OpenAI;
-using Codeblaze.SemanticKernel.Connectors.AI.Ollama;
 using Codeblaze.SemanticKernel.Plugins.Neo4j;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 
 namespace Codeblaze.SemanticKernel.Console.Services;
@@ -14,7 +11,7 @@ public class NeoKernelService
 
     public NeoKernelService(IConfiguration config)
     {
-        var builder = new KernelBuilder();
+        var builder = Kernel.CreateBuilder();
 
         builder.AddOpenAIChatCompletion(config["OpenAI:Model"], config["OpenAI:Key"]);
 

@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.Embeddings;
-using Microsoft.SemanticKernel.AI.TextGeneration;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Embeddings;
+using Microsoft.SemanticKernel.TextGeneration;
 
 namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
 
@@ -141,7 +141,7 @@ public static class OllamaKernelBuilderExtensions
         );
 
 #pragma warning disable SKEXP0001
-        builder.Services.AddKeyedSingleton<ITextEmbeddingGeneration>(serviceId, factory);
+        builder.Services.AddKeyedSingleton<IEmbeddingGenerationService<string, float>>(serviceId, factory);
 #pragma warning restore SKEXP0001
         return builder;
     }
@@ -169,7 +169,7 @@ public static class OllamaKernelBuilderExtensions
         );
 
 #pragma warning disable SKEXP0001
-        builder.Services.AddKeyedSingleton<ITextEmbeddingGeneration>(serviceId, factory);
+        builder.Services.AddKeyedSingleton<IEmbeddingGenerationService<string, float>>(serviceId, factory);
 #pragma warning restore SKEXP0001
         return builder;
     }

@@ -3,14 +3,14 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.Embeddings;
+using Microsoft.SemanticKernel.Embeddings;
 
 namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
 
 #pragma warning disable SKEXP0001
 public class OllamaTextEmbeddingGeneration(string modelId, string baseUrl, HttpClient http, ILoggerFactory? loggerFactory)
     : OllamaBase<OllamaTextEmbeddingGeneration>(modelId, baseUrl, http, loggerFactory),
-        ITextEmbeddingGeneration
+        IEmbeddingGenerationService<string, float>
 #pragma warning restore SKEXP0001
 {
     public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, Kernel? kernel = null,

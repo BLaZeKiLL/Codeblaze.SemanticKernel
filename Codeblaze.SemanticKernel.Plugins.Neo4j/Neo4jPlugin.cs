@@ -12,6 +12,7 @@ public class NeoResult
     public List<IRecord>? Result { get; set; }
 }
 
+// Extend from IKernelPlugin
 public class Neo4jPlugin
 {
     private readonly IDriver _driver;
