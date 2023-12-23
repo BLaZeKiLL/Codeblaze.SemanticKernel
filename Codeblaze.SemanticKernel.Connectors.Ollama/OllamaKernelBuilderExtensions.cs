@@ -6,7 +6,7 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Embeddings;
 using Microsoft.SemanticKernel.TextGeneration;
 
-namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
+namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
 public static class OllamaKernelBuilderExtensions
 {

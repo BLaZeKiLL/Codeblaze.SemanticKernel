@@ -1,4 +1,4 @@
-using Codeblaze.SemanticKernel.Connectors.AI.Ollama;
+using Codeblaze.SemanticKernel.Connectors.Ollama;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;

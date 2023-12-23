@@ -30,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Codeblaze.SemanticKernel.Connectors.AI.Ollama\Codeblaze.SemanticKernel.Connectors.AI.Ollama.csproj" />
+      <ProjectReference Include="..\Codeblaze.SemanticKernel.Connectors.Ollama\Codeblaze.SemanticKernel.Connectors.Ollama.csproj" />
       <ProjectReference Include="..\Codeblaze.SemanticKernel.Plugins.Neo4j\Codeblaze.SemanticKernel.Plugins.Neo4j.csproj" />
     </ItemGroup>
 

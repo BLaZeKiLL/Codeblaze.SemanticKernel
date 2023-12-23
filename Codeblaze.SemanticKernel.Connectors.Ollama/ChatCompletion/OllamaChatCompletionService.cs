@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
+namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
 public class OllamaChatCompletionService(
     string modelId,

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Embeddings;
 
-namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
+namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
 #pragma warning disable SKEXP0001
 public class OllamaTextEmbeddingGeneration(string modelId, string baseUrl, HttpClient http, ILoggerFactory? loggerFactory)

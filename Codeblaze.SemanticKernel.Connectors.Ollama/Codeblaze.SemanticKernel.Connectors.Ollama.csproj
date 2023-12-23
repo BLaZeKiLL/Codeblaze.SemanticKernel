@@ -5,9 +5,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.1" />
+    </ItemGroup>
+    
     <!-- Versioning -->
     <ItemGroup>
-      <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.1" />
       <PackageReference Include="MinVer" Version="4.3.0">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
@@ -16,7 +19,7 @@
 
     <!-- Nuget Stuff -->
     <PropertyGroup>
-      <PackageId>Codeblaze.SemanticKernel.Connectors.AI.Ollama</PackageId>
+      <PackageId>Codeblaze.SemanticKernel.Connectors.Ollama</PackageId>
       <Authors>Codeblaze (Devashish Lal)</Authors>
       <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
       <Description>
