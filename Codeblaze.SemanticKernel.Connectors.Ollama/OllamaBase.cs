@@ -1,9 +1,8 @@
-using System.Net;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Codeblaze.SemanticKernel.Connectors.AI.Ollama;
+namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
 public interface IOllamaBase
 {

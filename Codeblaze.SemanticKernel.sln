@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Connectors.AI.Ollama", "Codeblaze.SemanticKernel.Connectors.AI.Ollama\Codeblaze.SemanticKernel.Connectors.AI.Ollama.csproj", "{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Connectors.Ollama", "Codeblaze.SemanticKernel.Connectors.Ollama\Codeblaze.SemanticKernel.Connectors.Ollama.csproj", "{D9D1DB9F-F4FF-494C-A470-7E29BA5CCC49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Api", "Codeblaze.SemanticKernel.Api\Codeblaze.SemanticKernel.Api.csproj", "{51E5DA79-8F4E-4D8D-95ED-96C724741E6F}"
 EndProject
