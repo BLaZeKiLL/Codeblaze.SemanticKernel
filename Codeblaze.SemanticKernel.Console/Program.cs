@@ -58,7 +58,7 @@ async Task Prompt()
 {
     var prompt = AnsiConsole.Prompt(new TextPrompt<string>("What are you looking to do today ?").PromptStyle("teal"));
 
-    NeoResult result = null;
+    Neo4jResult result = null;
     
     await AnsiConsole.Status().StartAsync("Processing...", async ctx =>
     {
