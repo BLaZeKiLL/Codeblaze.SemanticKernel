@@ -1,5 +1,7 @@
+using Codeblaze.SemanticKernel.Connectors.Ollama;
 using Codeblaze.SemanticKernel.Plugins.Neo4j;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 
 namespace Codeblaze.SemanticKernel.Console.Services;
@@ -7,31 +9,29 @@ namespace Codeblaze.SemanticKernel.Console.Services;
 public class NeoKernelService
 {
     private readonly Kernel _Kernel;
-    private readonly Neo4jPlugin _plugin;
 
     public NeoKernelService(IConfiguration config)
     {
         var builder = Kernel.CreateBuilder();
 
+        // builder.Services.AddTransient<HttpClient>();
+        
         builder.AddOpenAIChatCompletion(config["OpenAI:Model"], config["OpenAI:Key"]);
-
+        // builder.AddOllamaChatCompletion(config["Ollama:Model"], config["Ollama:BaseUrlGeneration"]);
+        
         _Kernel = builder.Build();
-
-        _plugin = new Neo4jPlugin(_Kernel, config["Neo4j:Url"], config["Neo4j:Username"], config["Neo4j:Password"]);
-    }
-
-    public string GetSchema()
-    {
-        return _plugin.Schema;
-    }
-
-    public Task<string> GenerateCypher(string prompt)
-    {
-        return _plugin.GenerateCypher(prompt);
+        
+        _Kernel.AddNeo4jCypherGenPlugin(config["Neo4j:Url"], config["Neo4j:Username"], config["Neo4j:Password"]);
     }
     
-    public Task<NeoResult> Run(string prompt)
+    public Task<Neo4jResult?> Run(string prompt)
     {
-        return _plugin.Run(prompt);
+        return _Kernel.InvokeAsync<Neo4jResult>(
+            nameof(Neo4jCypherGenPlugin), "Query", 
+            new KernelArguments
+            {
+                { "prompt", prompt }
+            }
+        );
     }
 }

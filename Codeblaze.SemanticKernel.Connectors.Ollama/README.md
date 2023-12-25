@@ -7,15 +7,15 @@ Supports
 > :warning: **Embedding generation**: Is experimental in the semantic kernel.
 
 ### Quick Start
-- Install from [nuget](https://www.nuget.org/packages/Codeblaze.SemanticKernel.Connectors.AI.Ollama)
+- Install from [nuget](https://www.nuget.org/packages/Codeblaze.SemanticKernel.Connectors.Ollama)
     ```
-    dotnet add package Codeblaze.SemanticKernel.Connectors.AI.Ollama
+    dotnet add package Codeblaze.SemanticKernel.Connectors.Ollama
     ```
 - Text Generation
 
     Configure the kernel
-    ```cs
-    var builder = new KernelBuilder();
+    ```csharp
+    var builder = Kernel.CreateBuilder();
 
     // provide the HTTP client used to interact with Ollama API
     builder.Services.AddTransient<HttpClient>();
@@ -29,7 +29,7 @@ Supports
     ```
 
     Usage
-    ```cs
+    ```csharp
     const string prompt = """
     Bot: How can I help you?
     User: {{$input}}
@@ -50,7 +50,7 @@ Supports
 - Chat Completion
 
     Configure the kernel
-    ```cs
+    ```csharp
     var builder = new KernelBuilder();
 
     // provide the HTTP client used to interact with Ollama API
@@ -65,7 +65,7 @@ Supports
     ```
 
     Usage
-    ```cs
+    ```csharp
     var chat = _Kernel.GetRequiredService<IChatCompletionService>();
 
     var history = new ChatHistory();
@@ -86,7 +86,7 @@ Supports
 - Embedding Generation (Experimental)
 
     Configure the kernel
-    ```cs
+    ```csharp
     var builder = new KernelBuilder();
 
     // provide the HTTP client used to interact with Ollama API
@@ -103,7 +103,7 @@ Supports
     ```
 
     Usage
-    ```cs
+    ```csharp
     var memory = _Kernel.GetRequiredService<ISemanticTextMemory>();
 
     // This will internally call Ollama embedding service to generate embeddings
