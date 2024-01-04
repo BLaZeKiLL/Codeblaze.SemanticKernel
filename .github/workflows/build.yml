@@ -4,6 +4,9 @@ name: build
 
 on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
+  pull_request:
+    branches:
+      - 'main'
   push:
     branches:
       - 'main'       # Run the workflow when pushing to the main branch
