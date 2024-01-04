@@ -30,7 +30,7 @@ public class OllamaTextEmbeddingGeneration(string modelId, string baseUrl, HttpC
 
             ValidateOllamaResponse(response);
 
-            var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+            var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             var embedding = new ReadOnlyMemory<float>(json!["embedding"]?.AsArray().GetValues<float>().ToArray());
             
