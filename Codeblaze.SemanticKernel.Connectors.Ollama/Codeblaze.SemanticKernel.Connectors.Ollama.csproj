@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>Latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -15,6 +16,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
+      <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     </ItemGroup>
 
     <!-- Nuget Stuff -->
@@ -43,8 +45,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Include="./README.md" Pack="true" PackagePath="/"/>
-      <None Include="../LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+      <None Include="./README.md" Pack="true" PackagePath="/" />
+      <None Include="../LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
     </ItemGroup>
 
 </Project>

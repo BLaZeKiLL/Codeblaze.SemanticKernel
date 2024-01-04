@@ -20,7 +20,7 @@ public class OllamaChatCompletionService(
     {
         var system = string.Join("\n", chatHistory.Where(x => x.Role == AuthorRole.System).Select(x => x.Content));
         var user = chatHistory.Last(x => x.Role == AuthorRole.User);
-        
+
         var data = new
         {
             model = Attributes["model_id"] as string,
@@ -34,7 +34,7 @@ public class OllamaChatCompletionService(
 
         ValidateOllamaResponse(response);
 
-        var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+        var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
         return new List<ChatMessageContent> { new(AuthorRole.Assistant, json!["response"]!.GetValue<string>(), modelId: Attributes["model_id"] as string) };
     }
@@ -45,7 +45,7 @@ public class OllamaChatCompletionService(
     {
         var system = string.Join("\n", chatHistory.Where(x => x.Role == AuthorRole.System).Select(x => x.Content));
         var user = chatHistory.Last(x => x.Role == AuthorRole.User);
-        
+
         var data = new
         {
             model = Attributes["model_id"] as string,
@@ -58,25 +58,22 @@ public class OllamaChatCompletionService(
         var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/generate", data, cancellationToken).ConfigureAwait(false);
 
         ValidateOllamaResponse(response);
-        
-        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 
-        await using (stream)
+        using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
+        using var reader = new StreamReader(stream);
+
+        var done = false;
+
+        while (!done)
         {
-            using var reader = new StreamReader(stream);
+            var json = JsonSerializer.Deserialize<JsonNode>(
+                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
+            );
 
-            var done = false;
+            done = json!["done"]!.GetValue<bool>();
 
-            while (!done)
-            {
-                var json = JsonSerializer.Deserialize<JsonNode>(
-                    await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
-                );
-
-                done = json!["done"]!.GetValue<bool>();
-
-                yield return new StreamingChatMessageContent(AuthorRole.Assistant, json["response"]!.GetValue<string>(), modelId: Attributes["model_id"] as string);
-            }
+            yield return new StreamingChatMessageContent(AuthorRole.Assistant, json["response"]!.GetValue<string>(), modelId: Attributes["model_id"] as string);
         }
     }
 }

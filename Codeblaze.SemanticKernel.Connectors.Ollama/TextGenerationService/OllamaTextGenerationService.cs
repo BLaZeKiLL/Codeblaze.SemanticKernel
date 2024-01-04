@@ -27,7 +27,7 @@ public class OllamaTextGenerationService(string modelId, string baseUrl, HttpCli
 
         ValidateOllamaResponse(response);
 
-        var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+        var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
         return new List<TextContent> { new(json!["response"]!.GetValue<string>()) };
     }
@@ -47,25 +47,22 @@ public class OllamaTextGenerationService(string modelId, string baseUrl, HttpCli
         var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/generate", data, cancellationToken).ConfigureAwait(false);
 
         ValidateOllamaResponse(response);
-        
-        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 
-        await using (stream)
+        using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
+        using var reader = new StreamReader(stream);
+
+        var done = false;
+
+        while (!done)
         {
-            using var reader = new StreamReader(stream);
+            var json = JsonSerializer.Deserialize<JsonNode>(
+                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
+            );
 
-            var done = false;
+            done = json!["done"]!.GetValue<bool>();
 
-            while (!done)
-            {
-                var json = JsonSerializer.Deserialize<JsonNode>(
-                    await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
-                );
-
-                done = json!["done"]!.GetValue<bool>();
-
-                yield return new StreamingTextContent(json["response"]!.GetValue<string>());
-            }
+            yield return new StreamingTextContent(json["response"]!.GetValue<string>());
         }
     }
 }
