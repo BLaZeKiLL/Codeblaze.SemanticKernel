@@ -19,7 +19,7 @@ public class Neo4jResult
 /// <summary>
 /// Cypher code gen plugin
 /// </summary>
-public class Neo4jCypherGenPlugin
+public class Neo4jCypherGenPlugin : IDisposable
 {
     private readonly IDriver _driver;
     private readonly IChatCompletionService _chat;
@@ -166,5 +166,10 @@ public class Neo4jCypherGenPlugin
 
             return await cursor.ToListAsync();
         });
+    }
+
+    public async void Dispose()
+    {
+        await _driver.DisposeAsync();
     }
 }
