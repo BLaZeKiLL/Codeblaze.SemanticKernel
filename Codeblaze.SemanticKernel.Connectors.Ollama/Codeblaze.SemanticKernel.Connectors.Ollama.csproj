@@ -25,7 +25,7 @@
       <Authors>Codeblaze (Devashish Lal)</Authors>
       <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
       <Description>
-        This package provides a Ollama AI connector for semantic kernel capable to text generation, chat completion and embedding generation with streaming support
+        This package provides a Ollama AI connector for semantic kernel capable of text generation, chat completion and embedding generation with streaming support
       </Description>
       <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl> 
       <RepositoryType>git</RepositoryType>

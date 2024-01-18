@@ -141,7 +141,7 @@ public class Neo4jVectorIndexQueryFactory(string name, string node, string index
             throw new KernelException(
                 $"Kernel passed {collectionName} index but query factory is configured with {name} index");
 
-        var updates = keys.Zip(embeddings).Select((id, embedding) => new { id, embedding }).ToArray();
+        var updates = keys.Zip(embeddings, (id, embedding) => new { id, embedding }).ToArray();
 
         return (Neo4jVectorQueries.UpsertBatchQuery, new { updates });
     }
