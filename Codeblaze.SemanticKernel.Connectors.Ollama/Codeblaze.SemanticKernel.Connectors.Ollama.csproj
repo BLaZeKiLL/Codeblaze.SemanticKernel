@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.1" />
+        <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.SemanticKernel" Version="1.1.0" />
     </ItemGroup>
     
     <!-- Versioning -->
@@ -16,7 +17,6 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     </ItemGroup>
 
     <!-- Nuget Stuff -->
@@ -25,7 +25,7 @@
       <Authors>Codeblaze (Devashish Lal)</Authors>
       <PackageTags>SemanticKernel;Ollama;Chat;Embeddings;AI</PackageTags>
       <Description>
-        This package provides a Ollama AI connector for semantic kernel capable to text generation, chat completion and embedding generation with streaming support
+        This package provides a Ollama AI connector for semantic kernel capable of text generation, chat completion and embedding generation with streaming support
       </Description>
       <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl> 
       <RepositoryType>git</RepositoryType>

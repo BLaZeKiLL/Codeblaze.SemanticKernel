@@ -10,7 +10,7 @@ namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 #pragma warning disable SKEXP0001
 public class OllamaTextEmbeddingGeneration(string modelId, string baseUrl, HttpClient http, ILoggerFactory? loggerFactory)
     : OllamaBase<OllamaTextEmbeddingGeneration>(modelId, baseUrl, http, loggerFactory),
-        IEmbeddingGenerationService<string, float>
+        ITextEmbeddingGenerationService
 #pragma warning restore SKEXP0001
 {
     public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, Kernel? kernel = null,

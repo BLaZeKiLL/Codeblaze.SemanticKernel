@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Plugins.Neo4j", "Codeblaze.SemanticKernel.Plugins.Neo4j\Codeblaze.SemanticKernel.Plugins.Neo4j.csproj", "{59813D42-7792-4750-AD89-0548812BAD9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codeblaze.SemanticKernel.Connectors.Memory.Neo4j", "Codeblaze.SemanticKernel.Connectors.Memory.Neo4j\Codeblaze.SemanticKernel.Connectors.Memory.Neo4j.csproj", "{3EAC6B51-3F7E-47CD-98B3-02915B18CE39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{59813D42-7792-4750-AD89-0548812BAD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59813D42-7792-4750-AD89-0548812BAD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59813D42-7792-4750-AD89-0548812BAD9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EAC6B51-3F7E-47CD-98B3-02915B18CE39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EAC6B51-3F7E-47CD-98B3-02915B18CE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EAC6B51-3F7E-47CD-98B3-02915B18CE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EAC6B51-3F7E-47CD-98B3-02915B18CE39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
