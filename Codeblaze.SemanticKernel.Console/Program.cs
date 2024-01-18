@@ -129,6 +129,7 @@ async Task Memory()
         AnsiConsole.Write(new Rule("[cyan][/]") { Justification = Justify.Center });
         AnsiConsole.WriteLine($"Relevance : {record.Relevance}");
         AnsiConsole.WriteLine($"Node ID: {record.Metadata.Id}");
+        AnsiConsole.WriteLine($"Node text: {record.Metadata.Text}");
     }
     
     AnsiConsole.Write(new Rule("[cyan][/]") { Justification = Justify.Center });

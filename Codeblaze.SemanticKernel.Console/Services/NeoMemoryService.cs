@@ -22,6 +22,7 @@ public class NeoMemoryService
                 "top_questions",
                 "Question",
                 "embedding",
+                "title",
                 384
             ));
 
