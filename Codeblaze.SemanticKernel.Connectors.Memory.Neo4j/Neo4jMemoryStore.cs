@@ -233,7 +233,13 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
         var score = result["score"].As<double>();
         var id = result["id"].As<string>();
 
-        return (new MemoryRecord(new MemoryRecordMetadata(true, id, "", "", "neo4j", ""), embedding, id), score);
+        return (new MemoryRecord(
+            new MemoryRecordMetadata(
+                true, id, "", "", "neo4j", ""), 
+                embedding, 
+                id), 
+            score
+        );
     }
 
     public void Dispose()

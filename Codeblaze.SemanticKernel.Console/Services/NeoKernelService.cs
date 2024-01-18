@@ -1,7 +1,5 @@
-using Codeblaze.SemanticKernel.Connectors.Ollama;
 using Codeblaze.SemanticKernel.Plugins.Neo4j;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 
 namespace Codeblaze.SemanticKernel.Console.Services;

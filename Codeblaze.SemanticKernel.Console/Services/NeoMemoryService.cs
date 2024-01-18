@@ -1,7 +1,6 @@
 using Codeblaze.SemanticKernel.Connectors.Memory.Neo4j;
 using Codeblaze.SemanticKernel.Connectors.Ollama;
 using Microsoft.Extensions.Configuration;
-using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Memory;
 
 namespace Codeblaze.SemanticKernel.Console.Services;
@@ -24,7 +23,8 @@ public class NeoMemoryService
                 "embedding",
                 "title",
                 384
-            ));
+            )
+        );
 
         _memory = builder.Build();
     }
