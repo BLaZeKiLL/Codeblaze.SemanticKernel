@@ -4,8 +4,12 @@ namespace Codeblaze.SemanticKernel.Connectors.Memory.Neo4j;
 
 public interface INeo4jQueryFactory
 {
+    public IDictionary<string, object> DynamicProperties { get; }
+    public string IndexName { get; }
+    public string NodeName { get; }
     public string TextProperty { get; }
     public string IndexProperty { get; }
+    public int Dimensions { get; }
     (string, object) ListIndexQuery();
     (string, object) CreateIndexQuery(string collectionName);
     (string, object) DropIndexQuery(string collectionName);
@@ -95,9 +99,11 @@ public class Neo4jVectorIndexQueryFactory(string name, string node, string index
     /// and the dynamic property must be returned along with the new query
     /// </summary>
     public IDictionary<string, object> DynamicProperties { get; } = new Dictionary<string, object>();
-
+    public string IndexName => name;
+    public string NodeName => node;
     public string TextProperty => textProperty;
     public string IndexProperty => indexProperty;
+    public int Dimensions => dimensions;
 
     public virtual (string, object) ListIndexQuery()
     {
