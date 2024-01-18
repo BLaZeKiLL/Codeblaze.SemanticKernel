@@ -9,13 +9,13 @@ public interface INeo4jQueryFactory
     (string, object) ListIndexQuery();
     (string, object) CreateIndexQuery(string collectionName);
     (string, object) DropIndexQuery(string collectionName);
-    (string, object) UpsertQuery(string collectionName, string key, ReadOnlyMemory<float> embedding);
-    (string, object) UpsertBatchQuery(string collectionName, IEnumerable<string> keys,
+    (string, object) UpsertQuery(string collectionName, int key, ReadOnlyMemory<float> embedding);
+    (string, object) UpsertBatchQuery(string collectionName, IEnumerable<int> keys,
         IEnumerable<ReadOnlyMemory<float>> embeddings);
-    (string, object) GetQuery(string collectionName, string keys);
-    (string, object) GetBatchQuery(string collectionName, IEnumerable<string> keys);
-    (string, object) RemoveQuery(string collectionName, string keys);
-    (string, object) RemoveBatchQuery(string collectionName, IEnumerable<string> keys);
+    (string, object) GetQuery(string collectionName, int keys);
+    (string, object) GetBatchQuery(string collectionName, IEnumerable<int> keys);
+    (string, object) RemoveQuery(string collectionName, int keys);
+    (string, object) RemoveBatchQuery(string collectionName, IEnumerable<int> keys);
     (string, object) GetNearestMatchQuery(string collectionName, ReadOnlyMemory<float> embedding,
         double minRelevanceScore, int limit = 1);
 }
@@ -43,37 +43,37 @@ public abstract class Neo4jVectorQueries
                                                """;
     
     public const string UpsertQuery = """
-                                      MATCH (n:$node {id: $id})
+                                      MATCH (n {id: $id})
                                       CALL db.create.setNodeVectorProperty(n, $indexProperty, $embedding)
                                       RETURN node.id AS id
                                       """;
     
     public const string UpsertBatchQuery = """
                                            UNWIND $updates AS update, 
-                                           MATCH (n:$node {id: update.id})
+                                           MATCH (n {id: update.id})
                                            CALL db.create.setNodeVectorProperty(n, $indexProperty, update.embedding)
                                            RETURN node.id AS id
                                            """;
     
     public const string GetQuery = """
-                                   MATCH (n:$node {id: $id})
+                                   MATCH (n {id: $id})
                                    RETURN n
                                    """;
     
     public const string GetBatchQuery = """
                                         UNWIND $ids AS id
-                                        MATCH (n:$node {id: id})
+                                        MATCH (n {id: id})
                                         RETURN n
                                         """;
     
     public const string RemoveQuery = """
-                                      MATCH (n:$node {id: $id})
+                                      MATCH (n {id: $id})
                                       DELETE n
                                       """;
     
     public const string RemoveBatchQuery = """
                                            UNWIND $ids AS id
-                                           MATCH (n:$node {id: id})
+                                           MATCH (n {id: id})
                                            DELETE n
                                            """;
 }
@@ -126,16 +126,16 @@ public class Neo4jVectorIndexQueryFactory(string name, string node, string index
         return (Neo4jVectorQueries.DropIndexQuery, new { name });
     }
 
-    public (string, object) UpsertQuery(string collectionName, string key, ReadOnlyMemory<float> embedding)
+    public (string, object) UpsertQuery(string collectionName, int key, ReadOnlyMemory<float> embedding)
     {
         if (name != collectionName)
             throw new KernelException(
                 $"Kernel passed {collectionName} index but query factory is configured with {name} index");
 
-        return (Neo4jVectorQueries.UpsertQuery, new { id = key, node, embedding });
+        return (Neo4jVectorQueries.UpsertQuery, new { id = key, embedding });
     }
 
-    public (string, object) UpsertBatchQuery(string collectionName, IEnumerable<string> keys, IEnumerable<ReadOnlyMemory<float>> embeddings)
+    public (string, object) UpsertBatchQuery(string collectionName, IEnumerable<int> keys, IEnumerable<ReadOnlyMemory<float>> embeddings)
     {
         if (name != collectionName)
             throw new KernelException(
@@ -143,9 +143,45 @@ public class Neo4jVectorIndexQueryFactory(string name, string node, string index
 
         var updates = keys.Zip(embeddings).Select((id, embedding) => new { id, embedding }).ToArray();
 
-        return (Neo4jVectorQueries.UpsertBatchQuery, new { node, updates });
+        return (Neo4jVectorQueries.UpsertBatchQuery, new { updates });
     }
 
+    public virtual (string, object) GetQuery(string collectionName, int key)
+    {
+        if (name != collectionName)
+            throw new KernelException(
+                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
+
+        return (Neo4jVectorQueries.GetQuery, new { id = key });
+    }
+
+    public virtual (string, object) GetBatchQuery(string collectionName, IEnumerable<int> keys)
+    {
+        if (name != collectionName)
+            throw new KernelException(
+                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
+
+        return (Neo4jVectorQueries.GetBatchQuery, new { ids = keys.ToArray() });
+    }
+
+    public virtual (string, object) RemoveQuery(string collectionName, int key)
+    {
+        if (name != collectionName)
+            throw new KernelException(
+                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
+
+        return (Neo4jVectorQueries.RemoveQuery, new { id = key });
+    }
+
+    public virtual (string, object) RemoveBatchQuery(string collectionName, IEnumerable<int> keys)
+    {
+        if (name != collectionName)
+            throw new KernelException(
+                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
+
+        return (Neo4jVectorQueries.RemoveBatchQuery, new { ids = keys });
+    }
+    
     public virtual (string, object) GetNearestMatchQuery(string collectionName, ReadOnlyMemory<float> embedding,
         double minRelevanceScore, int limit = 1)
     {
@@ -160,43 +196,5 @@ public class Neo4jVectorIndexQueryFactory(string name, string node, string index
             embedding = embedding.ToArray(),
             minRelevanceScore
         });
-    }
-    
-    
-
-    public virtual (string, object) GetQuery(string collectionName, string key)
-    {
-        if (name != collectionName)
-            throw new KernelException(
-                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
-
-        return (Neo4jVectorQueries.GetQuery, new { id = key, node });
-    }
-
-    public virtual (string, object) GetBatchQuery(string collectionName, IEnumerable<string> keys)
-    {
-        if (name != collectionName)
-            throw new KernelException(
-                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
-
-        return (Neo4jVectorQueries.GetBatchQuery, new { ids = keys.ToArray(), node });
-    }
-
-    public virtual (string, object) RemoveQuery(string collectionName, string key)
-    {
-        if (name != collectionName)
-            throw new KernelException(
-                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
-
-        return (Neo4jVectorQueries.RemoveQuery, new { id = key, node });
-    }
-
-    public virtual (string, object) RemoveBatchQuery(string collectionName, IEnumerable<string> keys)
-    {
-        if (name != collectionName)
-            throw new KernelException(
-                $"Kernel passed {collectionName} index but query factory is configured with {name} index");
-
-        return (Neo4jVectorQueries.RemoveBatchQuery, new { ids = keys, node });
     }
 }

@@ -64,19 +64,11 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
 
         await cursor.ConsumeAsync().ConfigureAwait(false);
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="collectionName"></param>
-    /// <param name="record"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    
     public async Task<string> UpsertAsync(string collectionName, MemoryRecord record,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var (query, props) = _queryFactory.UpsertQuery(collectionName, record.Key, record.Embedding);
+        var (query, props) = _queryFactory.UpsertQuery(collectionName, int.Parse(record.Key), record.Embedding);
 
         await using var session = _driver.AsyncSession();
 
@@ -92,7 +84,7 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
     {
         var (query, props) = _queryFactory.UpsertBatchQuery(
             collectionName, 
-            records.Select(x => x.Key), 
+            records.Select(x => int.Parse(x.Key)),
             records.Select(x => x.Embedding)
         );
 
@@ -111,7 +103,7 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
     public async Task<MemoryRecord?> GetAsync(string collectionName, string key, bool withEmbedding = false,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var (query, props) = _queryFactory.GetQuery(collectionName, key);
+        var (query, props) = _queryFactory.GetQuery(collectionName, int.Parse(key));
 
         await using var session = _driver.AsyncSession();
 
@@ -119,16 +111,18 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
 
         var record = await cursor.SingleAsync().ConfigureAwait(false);
 
-        var id = record["id"].As<string>();
+        var node = record["n"].As<INode>();
+        
+        var id = node["id"].As<string>();
         var embedding = withEmbedding
-            ? new ReadOnlyMemory<float>(record[_queryFactory.IndexProperty].As<float[]>())
+            ? new ReadOnlyMemory<float>(node[_queryFactory.IndexProperty].As<float[]>())
             : ReadOnlyMemory<float>.Empty;
 
         return new MemoryRecord(
             new MemoryRecordMetadata(
                 true, 
                 id,
-                record[_queryFactory.TextProperty].As<string>(), 
+                node[_queryFactory.TextProperty].As<string>(), 
                 "", "neo4j", 
                 ""
             ),
@@ -141,7 +135,7 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
         bool withEmbeddings = false,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var (query, props) = _queryFactory.GetBatchQuery(collectionName, keys);
+        var (query, props) = _queryFactory.GetBatchQuery(collectionName, keys.Select(int.Parse));
 
         await using var session = _driver.AsyncSession();
 
@@ -151,16 +145,18 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
 
         foreach (var record in result)
         {
-            var id = record["id"].As<string>();
+            var node = record["n"].As<INode>();
+            
+            var id = node["id"].As<string>();
             var embedding = withEmbeddings
-                ? new ReadOnlyMemory<float>(record[_queryFactory.IndexProperty].As<float[]>())
+                ? new ReadOnlyMemory<float>(node[_queryFactory.IndexProperty].As<float[]>())
                 : ReadOnlyMemory<float>.Empty;
 
             yield return new MemoryRecord(
                 new MemoryRecordMetadata(
                     true, 
                     id,
-                    record[_queryFactory.TextProperty].As<string>(), 
+                    node[_queryFactory.TextProperty].As<string>(), 
                     "", "neo4j", 
                     ""
                 ),
@@ -173,7 +169,7 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
     public async Task RemoveAsync(string collectionName, string key,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var (query, props) = _queryFactory.RemoveQuery(collectionName, key);
+        var (query, props) = _queryFactory.RemoveQuery(collectionName, int.Parse(key));
 
         await using var session = _driver.AsyncSession();
 
@@ -185,7 +181,7 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
     public async Task RemoveBatchAsync(string collectionName, IEnumerable<string> keys,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var (query, props) = _queryFactory.RemoveBatchQuery(collectionName, keys);
+        var (query, props) = _queryFactory.RemoveBatchQuery(collectionName, keys.Select(int.Parse));
 
         await using var session = _driver.AsyncSession();
 
@@ -212,11 +208,10 @@ public class Neo4jMemoryStore : IMemoryStore, IDisposable
         {
             var score = record["score"].As<double>();
             var id = record["id"].As<string>();
-            var text = record["text"].As<string>();
 
             yield return (
                 new MemoryRecord(
-                    new MemoryRecordMetadata(true, id, text, "", "neo4j", ""), embedding, id
+                    new MemoryRecordMetadata(true, id, "", "", "neo4j", ""), embedding, id
                 ),
                 score);
         }

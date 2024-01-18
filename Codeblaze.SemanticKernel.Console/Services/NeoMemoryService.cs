@@ -29,9 +29,18 @@ public class NeoMemoryService
         _memory = builder.Build();
     }
 
-    public IAsyncEnumerable<MemoryQueryResult> Run(string prompt)
+    public async IAsyncEnumerable<MemoryQueryResult> Run(string prompt)
     {
-        return _memory.SearchAsync("top_questions", prompt, limit: 3);
+        var results = _memory.SearchAsync("top_questions", prompt, limit: 3);
+
+        await foreach (var result in results)
+        {
+            yield return new MemoryQueryResult(
+                (await _memory.GetAsync("top_questions", result.Metadata.Id)).Metadata, 
+                result.Relevance, 
+                result.Embedding
+            );
+        }
     }
 }
 #pragma warning enable SKEXP0003
