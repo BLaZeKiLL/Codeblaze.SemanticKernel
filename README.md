@@ -12,7 +12,7 @@
     </a>
 </p>
 
-| Plugin              | Nuget                                                                                                                                                                                                                    | Python | Java |
+| Plugin              | Dotnet                                                                                                                                                                                                                   | Python | Java |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|------|
 | Ollama Connector    | <a href="https://www.nuget.org/packages/Codeblaze.SemanticKernel.Connectors.Ollama"><img alt="Nuget" src="https://img.shields.io/nuget/v/Codeblaze.SemanticKernel.Connectors.Ollama?label=ollama"></a>                   |        |      |
 | Neo4J Memory        | <a href="https://www.nuget.org/packages/Codeblaze.SemanticKernel.Connectors.Memory.Neo4j"><img alt="Nuget" src="https://img.shields.io/nuget/v/Codeblaze.SemanticKernel.Connectors.Memory.Neo4j?label=neo4j-memory"></a> |        |      |
