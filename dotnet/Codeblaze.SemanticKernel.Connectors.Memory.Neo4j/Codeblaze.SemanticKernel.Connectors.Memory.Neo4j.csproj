@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
+    
     <ItemGroup>
-      <PackageReference Include="Microsoft.SemanticKernel" Version="1.1.0" />
-      <PackageReference Include="Neo4j.Driver" Version="5.16.0" />
+        <PackageReference Include="Microsoft.SemanticKernel" Version="1.1.0" />
+        <PackageReference Include="Neo4j.Driver" Version="5.16.0" />
     </ItemGroup>
 
     <!-- Versioning -->
@@ -22,11 +22,11 @@
 
     <!-- Nuget Stuff -->
     <PropertyGroup>
-        <PackageId>Codeblaze.SemanticKernel.Plugins.Neo4j</PackageId>
+        <PackageId>Codeblaze.SemanticKernel.Connectors.Memory.Neo4j</PackageId>
         <Authors>Codeblaze (Devashish Lal)</Authors>
-        <PackageTags>SemanticKernel;Neo4j;Cypher;Codegen;Knowledge Graphs</PackageTags>
+        <PackageTags>SemanticKernel;Neo4j;Memory;Embeddings;AI</PackageTags>
         <Description>
-            This package provides semantic kernel plugin for Neo4j cyher codegen support, Enabling talking to knowledge graphs
+            This package provides a Neo4j Memory store for semantic kernel capable of storing and retriving vector embeddings
         </Description>
         <RepositoryUrl>https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
@@ -46,8 +46,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="./README.md" Pack="true" PackagePath="/"/>
-        <None Include="../LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+        <None Include="./README.md" Pack="true" PackagePath="/" />
+        <None Include="../../LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
     </ItemGroup>
-
 </Project>

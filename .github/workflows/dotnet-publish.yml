@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: publish
+name: dotnet-publish
 
 on:
   push:
@@ -14,6 +14,7 @@ env:
 
 defaults:
   run:
+    working-directory: ./dotnet
     shell: pwsh
 
 jobs:
