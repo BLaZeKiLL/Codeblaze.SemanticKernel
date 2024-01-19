@@ -1,4 +1,4 @@
-# CodeBlaze's Semantic Kernel Nugets
+# CodeBlaze's Semantic Kernel Plugins
 
 <p align="center">
     <a href="https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel/actions/workflows/dotnet-build.yml">
