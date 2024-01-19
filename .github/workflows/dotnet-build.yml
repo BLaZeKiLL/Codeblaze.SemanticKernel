@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: build
+name: dotnet-build
 
 on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
@@ -14,10 +14,11 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace }}/nuget
+  NuGetDirectory: ${{ github.workspace }}/dotnet/nuget
 
 defaults:
   run:
+    working-directory: ./dotnet
     shell: pwsh
 
 jobs:
