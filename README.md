@@ -1,8 +1,8 @@
 # CodeBlaze's Semantic Kernel Nugets
 
 <p align="center">
-    <a href="https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel/actions/workflows/build.yml">
-        <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/BLaZeKiLL/Codeblaze.SemanticKernel/build.yml">
+    <a href="https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel/actions/workflows/dotnet-build.yml">
+        <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/BLaZeKiLL/Codeblaze.SemanticKernel/dotnet-build.yml?label=dotnet-build">
     </a>
     <a href="https://github.com/BLaZeKiLL/Codeblaze.SemanticKernel/blob/main/LICENSE.md">
         <img alt="GitHub" src="https://img.shields.io/github/license/BLaZeKiLL/Codeblaze.SemanticKernel">
