@@ -16,8 +16,8 @@ public class KernelService
 
         builder.Services.AddTransient<HttpClient>();
 
-        builder
-            .AddOllamaTextGeneration(config["Ollama:Model"], config["Ollama:BaseUrlGeneration"]);
+        builder.AddOllamaChatCompletion(config["Ollama:Model"], config["Ollama:BaseUrlGeneration"]);
+        builder.AddOllamaTextGeneration(config["Ollama:Model"], config["Ollama:BaseUrlGeneration"]);
 
         _Kernel = builder.Build();
     }

@@ -18,14 +18,12 @@ public class OllamaChatCompletionService(
     public async Task<IReadOnlyList<ChatMessageContent>> GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null,
         Kernel? kernel = null, CancellationToken cancellationToken = new())
     {
-        var system = string.Join("\n", chatHistory.Where(x => x.Role == AuthorRole.System).Select(x => x.Content));
-        var user = chatHistory.Last(x => x.Role == AuthorRole.User);
+        var chat = string.Join("\n", chatHistory.Select(x => x.Content));
 
         var data = new
         {
             model = Attributes["model_id"] as string,
-            prompt = user.Content,
-            system,
+            prompt = chat,
             stream = false,
             options = executionSettings?.ExtensionData,
         };
@@ -43,14 +41,12 @@ public class OllamaChatCompletionService(
         PromptExecutionSettings? executionSettings = null, Kernel? kernel = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = new())
     {
-        var system = string.Join("\n", chatHistory.Where(x => x.Role == AuthorRole.System).Select(x => x.Content));
-        var user = chatHistory.Last(x => x.Role == AuthorRole.User);
+        var chat = string.Join("\n", chatHistory.Select(x => x.Content));
 
         var data = new
         {
             model = Attributes["model_id"] as string,
-            prompt = user.Content,
-            system,
+            prompt = chat,
             stream = true,
             options = executionSettings?.ExtensionData,
         };

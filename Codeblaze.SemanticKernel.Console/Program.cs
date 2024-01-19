@@ -49,21 +49,21 @@ void Run()
 
 async Task Prompt()
 {
-    NeoKernelService kernel = null;
+    KernelService kernel = null;
 
     AnsiConsole.Status().Start("Initializing...", ctx =>
     {
         ctx.Spinner(Spinner.Known.Star);
         ctx.SpinnerStyle(Style.Parse("green"));
 
-        kernel = new NeoKernelService(config);
+        kernel = new KernelService(config);
 
         ctx.Status("Initialized");
     });
     
     var prompt = AnsiConsole.Prompt(new TextPrompt<string>("What are you looking to do today?\n").PromptStyle("teal"));
 
-    Neo4jResult result = null;
+    string result = null;
     
     await AnsiConsole.Status().StartAsync("Processing...", async ctx =>
     {
@@ -71,29 +71,12 @@ async Task Prompt()
         ctx.SpinnerStyle(Style.Parse("green"));
 
         ctx.Status($"Processing input to generate cypher");
-        result = await kernel.Run(prompt);
+        result = await kernel.BasicPrompt(prompt);
     });
 
-    if (result.Success)
-    {
-        AnsiConsole.WriteLine("");
-        AnsiConsole.Write(new Rule("[cyan]Cypher[/]") { Justification = Justify.Center });
-        AnsiConsole.WriteLine(result.Cypher);
-        AnsiConsole.Write(new Panel(new JsonText(JsonSerializer.Serialize(result.Result)))
-            .Header("Cypher Result")
-            .Expand()
-            .RoundedBorder()
-            .BorderColor(Color.Green));
-        AnsiConsole.WriteLine("");
-    }
-    else
-    {
-        AnsiConsole.WriteLine("");
-        AnsiConsole.Write(new Rule("[red]Cypher[/]") { Justification = Justify.Center });
-        AnsiConsole.WriteLine(result.Cypher);
-        AnsiConsole.Write(new Rule("[red]Cypher Execution Error[/]") { Justification = Justify.Center });
-        AnsiConsole.WriteLine("");
-    }
+    AnsiConsole.Write(new Rule("[cyan][/]") { Justification = Justify.Center });
+    AnsiConsole.WriteLine($"Result: {result}");
+    AnsiConsole.Write(new Rule("[cyan][/]") { Justification = Justify.Center });
 }
 
 #pragma warning disable SKEXP0003
