@@ -1,10 +1,10 @@
-using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+using Codeblaze.SemanticKernel.Connectors.Ollama.ChatCompletion;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
@@ -18,40 +18,41 @@ public class OllamaChatCompletionService(
     public async Task<IReadOnlyList<ChatMessageContent>> GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null,
         Kernel? kernel = null, CancellationToken cancellationToken = new())
     {
-        var chat = string.Join("\n", chatHistory.Select(x => x.Content));
+        var chatExecutionSettings = OllamaPromptExecutionSettings.FromExecutionSettings(executionSettings);
 
         var data = new
         {
             model = Attributes["model_id"] as string,
-            prompt = chat,
+            messages = GetChatMessages(chatHistory),
             stream = false,
-            options = executionSettings?.ExtensionData,
+            options = chatExecutionSettings
         };
 
-        var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/generate", data, cancellationToken).ConfigureAwait(false);
+        var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/chat", data, cancellationToken).ConfigureAwait(false);
 
         ValidateOllamaResponse(response);
+        string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-        var json = JsonSerializer.Deserialize<JsonNode>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+        var chatResponseMessage = JsonSerializer.Deserialize<OllamaChatResponseMessage>(jsonResponse);
 
-        return new List<ChatMessageContent> { new(AuthorRole.Assistant, json!["response"]!.GetValue<string>(), modelId: Attributes["model_id"] as string) };
+        return new List<ChatMessageContent> { chatResponseMessage!.ToChatMessageContent() };
     }
 
     public async IAsyncEnumerable<StreamingChatMessageContent> GetStreamingChatMessageContentsAsync(ChatHistory chatHistory,
         PromptExecutionSettings? executionSettings = null, Kernel? kernel = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = new())
     {
-        var chat = string.Join("\n", chatHistory.Select(x => x.Content));
+        var chatExecutionSettings = OllamaPromptExecutionSettings.FromExecutionSettings(executionSettings);
 
         var data = new
         {
             model = Attributes["model_id"] as string,
-            prompt = chat,
+            messages = GetChatMessages(chatHistory),
             stream = true,
-            options = executionSettings?.ExtensionData,
+            options = chatExecutionSettings
         };
 
-        var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/generate", data, cancellationToken).ConfigureAwait(false);
+        var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/chat", data, cancellationToken).ConfigureAwait(false);
 
         ValidateOllamaResponse(response);
 
@@ -63,13 +64,25 @@ public class OllamaChatCompletionService(
 
         while (!done)
         {
-            var json = JsonSerializer.Deserialize<JsonNode>(
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
+            string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            done = json!["done"]!.GetValue<bool>();
+            var chatResponseMessage = JsonSerializer.Deserialize<OllamaChatResponseMessage>(jsonResponse);
+            done = chatResponseMessage!.Done;
 
-            yield return new StreamingChatMessageContent(AuthorRole.Assistant, json["response"]!.GetValue<string>(), modelId: Attributes["model_id"] as string);
+            yield return chatResponseMessage!.ToStreamingChatMessageContent();
+        }
+    }
+
+    private IEnumerable<OllamaChatRequestMessage> GetChatMessages(ChatHistory chat)
+    {
+        foreach (var item in chat)
+        {
+            if (item.Role == AuthorRole.System)
+                yield return new OllamaChatRequestSystemMessage(item.Content!);
+            else if (item.Role == AuthorRole.User)
+                yield return new OllamaChatRequestUserMessage(item.Content!);
+            else if (item.Role == AuthorRole.Assistant)
+                yield return new OllamaChatRequestAssistantMessage(item.Content!);
         }
     }
 }
