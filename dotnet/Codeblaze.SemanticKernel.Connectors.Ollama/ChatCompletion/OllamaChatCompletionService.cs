@@ -64,7 +64,7 @@ public class OllamaChatCompletionService(
 
         while (!done)
         {
-            string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string jsonResponse = reader.ReadLine();
 
             var chatResponseMessage = JsonSerializer.Deserialize<OllamaChatResponseMessage>(jsonResponse);
             done = chatResponseMessage!.Done;
