@@ -70,7 +70,7 @@ async Task Prompt()
         ctx.Spinner(Spinner.Known.Star);
         ctx.SpinnerStyle(Style.Parse("green"));
 
-        ctx.Status($"Processing input to generate cypher");
+        ctx.Status($"Processing input");
         result = await kernel.BasicPrompt(prompt);
     });
 
