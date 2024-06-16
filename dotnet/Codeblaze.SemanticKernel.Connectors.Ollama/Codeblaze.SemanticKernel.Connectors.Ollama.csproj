@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
-        <PackageReference Include="Microsoft.SemanticKernel" Version="1.3.0" />
+        <PackageReference Include="Microsoft.SemanticKernel" Version="1.14.1" />
     </ItemGroup>
     
     <!-- Versioning -->
@@ -18,7 +18,7 @@
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
       <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
-      <PackageReference Include="System.Text.Json" Version="8.0.1" />
+      <PackageReference Include="System.Text.Json" Version="8.0.3" />
     </ItemGroup>
 
     <!-- Nuget Stuff -->
