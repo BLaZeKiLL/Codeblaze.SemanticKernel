@@ -2,7 +2,7 @@ using Microsoft.SemanticKernel.Memory;
 
 namespace Codeblaze.SemanticKernel.Connectors.Ollama;
 
-#pragma warning disable SKEXP0003
+#pragma warning disable SKEXP0001
 public static class OllamaMemoryBuilderExtensions
 {
     /// <summary>
@@ -51,4 +51,4 @@ public static class OllamaMemoryBuilderExtensions
         return builder;
     }
 }
-#pragma warning enable SKEXP0003
+#pragma warning enable SKEXP0001

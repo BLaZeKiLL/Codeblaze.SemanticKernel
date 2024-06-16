@@ -5,7 +5,7 @@ using Microsoft.SemanticKernel.Memory;
 
 namespace Codeblaze.SemanticKernel.Console.Services;
 
-#pragma warning disable SKEXP0003
+#pragma warning disable SKEXP0001
 public class NeoMemoryService
 {
     private readonly ISemanticTextMemory _memory;
@@ -43,4 +43,4 @@ public class NeoMemoryService
         }
     }
 }
-#pragma warning enable SKEXP0003
+#pragma warning enable SKEXP0001

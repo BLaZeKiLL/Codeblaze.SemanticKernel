@@ -96,8 +96,9 @@ async Task Memory()
     
     var prompt = AnsiConsole.Prompt(new TextPrompt<string>("What are you looking to do today?\n").PromptStyle("teal"));
 
+#pragma warning disable SKEXP0001
     IAsyncEnumerable<MemoryQueryResult> result = null;
-    
+#pragma warning enable SKEXP0001
     await AnsiConsole.Status().StartAsync("Processing...", async ctx =>
     {
         ctx.Spinner(Spinner.Known.Star);
