@@ -52,7 +52,9 @@ public class OllamaChatCompletionService(
             options = chatExecutionSettings
         };
 
-        var response = await Http.PostAsJsonAsync($"{Attributes["base_url"]}/api/chat", data, cancellationToken).ConfigureAwait(false);
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{Attributes["base_url"]}/api/chat");
+        request.Content = JsonContent.Create(data);
+        using var response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
         ValidateOllamaResponse(response);
 
@@ -64,7 +66,7 @@ public class OllamaChatCompletionService(
 
         while (!done)
         {
-            string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string jsonResponse = await reader.ReadLineAsync();
 
             var chatResponseMessage = JsonSerializer.Deserialize<OllamaChatResponseMessage>(jsonResponse);
             done = chatResponseMessage!.Done;
